@@ -279,7 +279,137 @@ p_{st}=\cfrac{1}{4\pi^2} \int \limits_0^{2\pi} \int \limits_0^{2\pi} p^0 dxdy = 
 \end{Th}
 	\end{frame}	
 	
+\begin{frame}[shrink=25]{Конечно--разностная аппроксимация}
+
+Для решения исходной задачи будем использовать   полностью неявную схему
+$$
+\begin{cases}
+&P_t + {\rho}_0 \hat U_x  + {\rho}_0 \hat V_y  = 0,  \\
+&{\rho}_0 U_t + C_{\rho}\hat P_{\bar x} = \mu \Big( \frac{4}{3} \hat U_{x\bar x} + \hat U_{y\bar y} + \frac{1}{3} \hat V_{x y}
+\Big), \\
+&{\rho}_0 V_t + C_{\rho}\hat P_{\bar y} = \mu \Big( 
+\frac{4}{3} \hat V_{y\bar y} + \hat V_{x\bar x} + \frac{1}{3} \hat U_{x y}\Big),
+\end{cases}
+\eqno(5)
+$$
+построенную на смещенных сетках В.И. Лебедева:
+	\begin{figure}[h!]
+\begin{minipage}[h]{1.\linewidth}
+\begin{tikzpicture}
+		\draw[step=2cm,dotted] (0,0) grid (8,6);
+		\foreach \x in {0,...,3}{
+			\foreach \y in {0,...,3}{
+				\VovaSquare{2*\x+1}{2*\y}{\VovaSize}
+			}
+		}
+		\foreach \x in {0,...,4}{
+			\foreach \y in {0,...,2}{
+				\VovaCircle{2*\x}{2*\y+1}{0.5*\VovaSize}
+			}
+		}
+		\foreach \x in {0,...,3}{
+			\foreach \y in {0,...,2}{
+				\VovaCross{2*\x+1}{2*\y+1}{0.5*\VovaSize}
+			}
+		}
+		\foreach \x in {0,...,4}{
+			\foreach \y in {0,...,3}{
+				\VovaDot{2*\x}{2*\y}{0.1}
+			}
+		}
+		% Поясняющий текст
+		\VovaSquare{11}{3}{\VovaSize} ; \draw (11,3) node[right]
+{\mbox{  }  --  \bfseries V};
+		\VovaCircle{11}{4}{0.5*\VovaSize}; \draw (11,4) node[right]
+{\mbox{  }  --  \bfseries U};
+		\VovaCross{11}{5}{0.5*\VovaSize}; \draw (11,5) node[right]
+{\mbox{  }  --  \bfseries P};
+		
+\end{tikzpicture}	
+\end{minipage}
+\end{figure}
+
+\end{frame}
 
 
+\begin{frame}[shrink=40]{Численные результаты}
+
+Общая картина динамики 
+выхода на стационар решений дифференциальных задач
+для начальных возмущений типа  скачок скорости
+$$
+  p_1^0(x,y) = 1,\quad  0 \le x,y\le 2\pi,
+  \quad
+  u_1^0(x,y) = v_1^0(x,y) =
+  \begin{cases}
+    1 \quad \  4\pi/5 \le x,y \le  6\pi / 5, \\
+    0 \quad \text{ иначе};
+  \end{cases}
+$$
+и скачок плотности
+$$
+ p_2^0(x,y) = 
+  \begin{cases}
+    2 \quad \  4\pi/5 \le x,y \le 6\pi / 5, \\
+    1 \quad \text{ иначе},
+  \end{cases}
+  \quad
+  u_2^0(x,y) = v_2^0(x,y) =0, \quad  0 \le x,y\le 2\pi.
+$$
+
+\begin{tabular}{cc}
+ \begin{tabular}{c}
+%D:\cygwin64\home\kornev\2020\2020_Num\NumSDS\task\20-Gas2d\Numres\UVPJumpSqPi\
+ \includegraphics[width=9cm]{./Picts/JumpDist.pdf}\\
+  Рис. 1. Графики функций 
+  $\|(u_{i}(t),v_i (t)\|_{L_2(\Omega)}$ \\
+  при $\mu = C_{\rho} = 1, \rho_0 = 0,1$. \\
+   {\it i=1}~--- скачок скорости; {\it i=2}~---  скачок плотности.
+\end{tabular}
+&
+ \begin{tabular}{c}
+\hfill Скачок плотности. Табл. 1. \\
+ \begin{tabular}{|c|c|c|c|}
+    \hline
+    $K^{mn}_2$     & n=0    & n=1    & n=2  \\
+    \hline
+    m=0                  & 0.08206  &  0.01525  & -0.13711 \\
+    \hline
+    m=1                  & -0.01275 & -0.00194  & 0.01525 \\
+    \hline
+    m=2                   &  0.00000 & -0.01275  & 0.08206 \\
+    \hline
+  \end{tabular} \\
+  \\
+\hfill Скачок скорости. Табл. 2. \\
+  \begin{tabular}{|c|c|c|c|}
+    \hline
+    $K^{mn}_2$     & n=0    & n=1    & n=2  \\
+    \hline
+    m=0                  & 0.00014 & -0.00052 & -0.00023  \\
+    \hline
+    m=1                  & 0.00230 &  0.00034 & -0.00052  \\
+    \hline
+    m=2                  &  0.00000 &  0.00230  & 0.00014  \\
+    \hline
+  \end{tabular}
+\end{tabular}
+
+\end{tabular}
+
+Наличие аналитических формул для решения позволяет объяснить данный  эффект.
+В Табл.  1,2  приведены  приближенные значения старших коэффициентов 
+$K^{mn}_2$, $m,n=0,1,2$,
+при разложении указанных начальных возмущений.
+
+\end{frame}
+
+\section{Спасибо за внимание}
+
+\begin{frame}
+\begin{center}
+	\Huge{\color{purple}{Спасибо за внимание!}}
+	\end{center}
+\end{frame}
 
 \end{document}
